@@ -1,0 +1,7 @@
+#! /bin/bash
+set -x
+set -e
+echo '{"nameLike": ""}' \
+    | $1 call-conduit macro.query \
+    | jq --raw-output '.response | keys | .[]' \
+    > $2
