@@ -5,7 +5,7 @@
 ;; Version: 0.1
 ;; Created: 2014-09-11
 ;; Keywords: phabricator, arcanist, diffusion
-;; Package-Requires: ((emacs "24.1"))
+;; Package-Requires: ((emacs "24.4") (dash "1.0") (projectile "0.13.0") (s "1.10.0") (f "0.17.2"))
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -37,12 +37,12 @@
 ;;; Code:
 
 (require 'dash)
+(require 'f)
 (require 'ido)
 (require 'image)
 (require 'json)
 (require 'projectile)
 (require 's)
-(require 'f)
 
 (defcustom arc-binary "arc"
   "*Location of the arcanist binary."

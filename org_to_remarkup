@@ -1,0 +1,14 @@
+#! /bin/bash
+
+# A hacky script that converts org-mode documents to an old-style
+# Remarkup dialect, used by Phabricator and other tools.
+set -x
+set -e
+
+pandoc --read=org --write=markdown --atx-headers $1 \
+    | sed -E "s/\{\.(.*)\}/lang=\1/g" \
+    | sed -E "s/\[(.*)\]\((.*)\)/[[\2 | \1]]/g" \
+    | sed "s/^####\s/====\s/g" \
+    | sed "s/^###\s/===\s/g" \
+    | sed "s/^##\s/==\s/g" \
+    | sed "s/^#\s/=\s/g"
