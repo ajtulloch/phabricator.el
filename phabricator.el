@@ -52,12 +52,8 @@
   "*Location for the arcanist macro images to be saved."
   :group 'phabricator)
 
-(defcustom phabricator-macro-list "~/.arc_macros_list"
+(defcustom phabricator-macro-list "~/.arcmacros_list"
   "*Location for the list of arcanist macros."
-  :group 'phabricator)
-
-(defcustom phabricator-macro-refresh-script "arc_macros"
-  "*Location for the script to refresh arcanist macros."
   :group 'phabricator)
 
 (defcustom diffusion-repo-prefix-list '()
@@ -82,13 +78,20 @@
     (insert-file-contents phabricator-macro-list)
     (->> (buffer-string) split-string (ido-completing-read "Macro: "))))
 
+(defun arc--write-string-to-file (filename string)
+  "Write FILENAME with contents of STRING."
+  (write-region string nil filename))
 
 (defun arc-refresh-macros ()
   "Refresh phabricator-macro-list from Phabricator with the latest macros."
   (interactive)
-  (call-process-shell-command
-   phabricator-macro-refresh-script nil nil nil
-   arc-binary phabricator-macro-list))
+  (->> (arc--call-conduit "macro.query" `(:nameLike ""))
+       (-map '-first-item)
+       (-map 'symbol-name)
+       (-sort 'string<)
+       (s-join "\n")
+       message
+       (arc--write-string-to-file phabricator-macro-list)))
 
 (defun arc-macro (name)
   "Insert NAME from a list of Phabricator macros."
