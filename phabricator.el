@@ -115,7 +115,7 @@ ring and messaged in the minibuffer."
   "Insert image NAME from a list of Phabricator macros."
   (interactive  `(,(arc--list-macros)))
   (let ((img (->> name arc-get-macro create-image)))
-    (when (image-animated-p img)
+    (when (image-multi-frame-p img)
       (image-animate img 0 t))
     (insert-image img name)
     (insert "\n\n")))
