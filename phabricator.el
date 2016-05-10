@@ -82,6 +82,7 @@
   "Write FILENAME with contents of STRING."
   (write-region string nil filename))
 
+;;;###autoload
 (defun arc-refresh-macros ()
   "Refresh phabricator-macro-list from Phabricator with the latest macros."
   (interactive)
@@ -93,11 +94,13 @@
        message
        (arc--write-string-to-file phabricator-macro-list)))
 
+;;;###autoload
 (defun arc-macro (name)
   "Insert NAME from a list of Phabricator macros."
   (interactive  `(,(arc--list-macros)))
   (->> name insert))
 
+;;;###autoload
 (defun arc-paste (start end)
   "Pastes the specified region from START to END (or whole file) with arcanist.
 The resulting URL is stored in the kill
@@ -114,6 +117,8 @@ ring and messaged in the minibuffer."
 
 ;;; ----------------------------------------------------------------------------
 ;;; arc paste commands.
+
+;;;###autoload
 (defun arc-insert-macro (name)
   "Insert image NAME from a list of Phabricator macros."
   (interactive  `(,(arc--list-macros)))
@@ -123,7 +128,7 @@ ring and messaged in the minibuffer."
     (insert-image img name)
     (insert "\n\n")))
 
-
+;;;###autoload
 (defun arc-get-macro (macro-name)
   "Retrieve the given MACRO-NAME image and save it to *phabricator-macro-dir*."
   (interactive  `(,(arc--list-macros)))
@@ -143,6 +148,8 @@ ring and messaged in the minibuffer."
 
 ;;; ----------------------------------------------------------------------------
 ;;; arc inlines commands
+
+;;;###autoload
 (defun arc-inlines ()
   "Display the inlines for the current branch in a compilation buffer."
   (interactive)
